@@ -7,6 +7,68 @@
     3. Criar uma função listarItens() que exibe todos os itens da lista.
     4. Criar um loop(while) para permitir ao usuário interagir com as opções até escolher sair.
     */
-    
-    
+
+
+    let item = 0;
+    let opcoes = 0;
+    let remover = 0;
+
+    function adicionarItem(item) {
+        item = prompt(`Qual item deseja adicionar? `);
+        listaCompras.push(item);
+    }
+
+    function removerItem(item) {
+        item = prompt(`Qual item deseja remover? \n Lista de Compras: ${listaCompras}`);
+        remover = listaCompras.indexOf(item);
+
+        if (remover !== -1) {
+            listaCompras.splice(remover, 1);
+            alert(`O item: ${item} foi removido da lista.`);
+
+        } else {
+            alert("Item não encontrado na lista!");
+        }
+    }
+
+    function listarItens(item) {
+
+        if (listaCompras.length > 0) {
+            alert(`Lista de Compras Atual:\n${listaCompras.sort().join("\n")}`);
+
+        } else {
+            alert("A lista não tem itens!");
+        }
+    }
+
+
+    while (opcoes !== 4) {
+
+        opcoes = Number(prompt(`Digite o número correspondente à opção desejada: 
+        1 - Quero adicionar um item à lista.
+        2 - Quero remover um item da lista.
+        3 - Quero ver os itens da lista.
+        4 - Quero sair. `))
+
+        if (opcoes == 1) {
+
+            adicionarItem();
+
+        } else if (opcoes == 2) {
+
+            removerItem();
+
+        } else if (opcoes == 3) {
+
+            listarItens();
+
+        } else if (opcoes == 4) {
+            alert(`Encerramento concluído!`);
+
+        } else {
+            alert(`Informe um número válido! \n Escolha uma das opções: 1 - 2 - 3 - 4.`);
+        }
+    }
+
+
 </script>
