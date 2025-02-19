@@ -12,6 +12,90 @@
     4. Criar uma função calcularFaturamento() que soma o valor de todas as reservas feitas.
     5. Criar um loop (while) para o usuário interagir com as opções até escolher sair (opção 0).
     */
+    
+    let opcoes = -1;
+    let numeroReserva = 0;
+    let cancelamento = 0;
+    let faturamento = 0;
 
+    function listarQuartosDisponiveis() {
+        const quartosDisponiveis = quartos.filter(quarto => quarto.disponivel);
+        let message = "";
+
+        quartosDisponiveis.forEach(quarto => {
+            message += `Número: ${quarto.numero}, Tipo: ${quarto.tipo}, Preço: R$${quarto.preco}\n`;
+        });
+
+        if (quartosDisponiveis.length > 0) {
+            alert(`Os quartos livres são:\n ${message}`);
+        } else {
+            alert(`Não tem quartos disponíveis no momento.`);
+        }
+    }
+
+    function reservarQuarto() {
+        numeroReserva = Number(prompt(`Informe o número do quarto que deseja reservar: `));
+        const quarto = quartos.find(quarto => quarto.numero === numeroReserva);
+
+        if (quarto) {
+            if (quarto.disponivel) {
+                quarto.disponivel = false;
+                alert(`O Quarto ${numeroReserva} foi reservado com sucesso!`);
+            } else {
+                alert(`Esse quarto não está disponível!`);
+            }
+        } else {
+            alert(`Quarto não encontrado!`);
+        }
+    }
+
+    function cancelarReserva() {
+        cancelamento = Number(prompt(`Informe o número do quarto que deseja cancelar a reserva: `));
+        const quarto = quartos.find(quarto => quarto.numero === cancelamento);
+
+        if (quarto) {
+            if (!quarto.disponivel) {
+                quarto.disponivel = true;
+                alert(`A reserva do quarto ${cancelamento} foi cancelada com sucesso!`);
+            } else {
+                alert(`Esse quarto não estava reservado!`);
+            }
+        } else {
+            alert(`Quarto não encontrado!`);
+        }
+    }
+
+    function calcularFaturamento() {
+        faturamento = 0;
+        quartos.forEach(quarto => {
+            if (!quarto.disponivel) {  
+                faturamento += quarto.preco;
+            }
+        });
+        alert(`O faturamento total é: R$ ${faturamento}`);
+    }
+
+    while (opcoes !== 0) {
+        opcoes = Number(prompt(`Digite o número correspondente à opção desejada: 
+        0 - Quero sair. 
+        1 - Ver quartos livres.
+        2 - Reservar um quarto.
+        3 - Cancelar reserva.
+        4 - Calcular faturamento.`));
+
+        if (opcoes == 1) {
+            listarQuartosDisponiveis();
+        } else if (opcoes == 2) {
+            reservarQuarto();
+        } else if (opcoes == 3) {
+            cancelarReserva();
+        } else if (opcoes == 4) {
+            calcularFaturamento();
+        } else if (opcoes == 0) {
+            alert(`Encerramento concluído!`);
+        } else {
+            alert(`Informe um número válido! \n Escolha uma das opções: 0 - 1 - 2 - 3 .`);
+        }
+    }
 
 </script>
