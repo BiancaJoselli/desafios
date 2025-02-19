@@ -19,7 +19,7 @@
     let faturamento = 0;
 
     function listarQuartosDisponiveis() {
-        const quartosDisponiveis = quartos.filter(quarto => quarto.disponivel);
+        const quartosDisponiveis = quartos.filter(quarto => quarto.disponivel == true);
         let message = "";
 
         quartosDisponiveis.forEach(quarto => {
@@ -27,7 +27,7 @@
         });
 
         if (quartosDisponiveis.length > 0) {
-            alert(`Os quartos livres são:\n ${message}`);
+            alert(`Os quartos livres são:\n${message}`);
         } else {
             alert(`Não tem quartos disponíveis no momento.`);
         }
@@ -84,16 +84,27 @@
         4 - Calcular faturamento.`));
 
         if (opcoes == 1) {
+
             listarQuartosDisponiveis();
+
         } else if (opcoes == 2) {
+
             reservarQuarto();
+
         } else if (opcoes == 3) {
+
             cancelarReserva();
+
         } else if (opcoes == 4) {
+
             calcularFaturamento();
+
         } else if (opcoes == 0) {
+
             alert(`Encerramento concluído!`);
+
         } else {
+
             alert(`Informe um número válido! \n Escolha uma das opções: 0 - 1 - 2 - 3 .`);
         }
     }

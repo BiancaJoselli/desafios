@@ -14,8 +14,8 @@
     let opcoes = -1;
 
     function calcularMedia(temperaturas) {
-        for (let i = 0; i < temperaturas.length; i++) { 
-            soma += temperaturas[i]; 
+        for (let i = 0; i < temperaturas.length; i++) {
+            soma += temperaturas[i];
         }
         let media = soma / temperaturas.length;
         alert(`A média das temperaturas é: ${media}`);
@@ -31,7 +31,7 @@
         alert(`A temperatura mais fria é: ${fria}`);
     }
 
-
+    
     while (opcoes !== 0) {
 
         opcoes = Number(prompt(`Digite o número correspondente à opção desejada: 
@@ -53,10 +53,13 @@
             encontrarMaisFria(temperaturas);
 
         } else if (opcoes == 0) {
+
             alert(`Encerramento concluído!`);
 
         } else {
+
             alert(`Informe um número válido! \n Escolha uma das opções: 0 - 1 - 2 - 3 .`);
+
         }
     }
 
