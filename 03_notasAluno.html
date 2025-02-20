@@ -4,6 +4,7 @@
         { nome: "Carlos", notas: [5, 6, 4] },
         { nome: "Bruna", notas: [9, 9, 10] }
     ];
+
     /*
     1. Criar uma função calcularMedia(nome) que retorna a média de um aluno.
     2. Criar uma função classificarAluno(nome) que retorna "Aprovado", "Recuperação" ou "Reprovado" com base na média.
@@ -11,59 +12,88 @@
     4. Criar um menu interativo para buscar alunos, adicionar notas e verificar médias.
     */
 
-    let opcoes;
-    let novaMedia;
-    let media;
-    let soma;
-    let nome;
-
-
-    function calcularMedia (nome) {
-        nome = prompt(`Informe o nome do aluno que deseja ver a média: `);
-        for (let nota in alunos[nome].notas) {
-            soma += nota;
+    function calcularMedia(nome) {
+        const aluno = alunos.find(aluno => aluno.nome.toLowerCase() === nome.toLowerCase());
+        if (aluno) {
+            const media = aluno.notas.reduce((total, nota) => total + nota, 0) / aluno.notas.length;
+            alert(`Média de ${aluno.nome}: ${media.toFixed(2)}`);
+            return media;
+        } else {
+            alert("Aluno não encontrado!");
+            return null;
         }
-            media = soma / alunos[notas].length;
-        alert(`A média do aluno(a) ${nome} é: ${media} `);
     }
 
     function classificarAluno(nome) {
-        for (let nota in alunos[notas])  {
-
+        const media = calcularMedia(nome);
+        if (media !== null) {
+            if (media >= 7) {
+                alert("Aprovado");
+            } else if (media >= 5) {
+                alert("Recuperação");
+            } else {
+                alert("Reprovado");
+            }
         }
     }
-    
 
-    while (opcoes !== 4) {
-
-        opcoes = Number(prompt(`Digite o número correspondente à opção desejada: 
-        1 - Retornar média.
-        2 - Retornar resultado.
-        3 - Incluir notas.
-        4 - Quero sair. `));
-
-        if (opcoes == 1) {
-
-            calcularMedia();
-
-        } else if (opcoes == 2) {
-
-            classificarAluno();
-
-        } else if (opcoes == 3) {
-
-            adicionarNota();
-
-        } else if (opcoes == 0) {
-
-            alert(`Encerramento concluído!`);
-
+    function adicionarNota(nome, nota) {
+        const aluno = alunos.find(aluno => aluno.nome.toLowerCase() === nome.toLowerCase());
+        if (aluno) {
+            if (!isNaN(nota) && nota >= 0 && nota <= 10) {
+                aluno.notas.push(nota);
+                alert(`Nota ${nota} adicionada ao aluno ${aluno.nome}`);
+            } else {
+                alert("Nota inválida! Insira um número entre 0 e 10.");
+            }
         } else {
-
-            alert(`Informe um número válido! \n Escolha uma das opções: 1 - 2 - 3 - 4.`);
+            alert("Aluno não encontrado!");
         }
     }
 
+    function menu() {
+        let opcao = -1;
+        let nome;
+        let nota;
 
+        while (opcao !== 0) {
+            opcao = Number(prompt(`Escolha uma opção entre os números:
+        0- Para encerrar
+        1- Para buscar a média de um aluno
+        2- Para ver a situação de um aluno
+        3- Para incluir mais notas a um aluno
+        
+        ${"Aluno(a): " + alunos[0].nome + " | Nota: " + alunos[0].notas}
+        ${"Aluno(a): " + alunos[1].nome + " | Nota: " + alunos[1].notas}
+        ${"Aluno(a): " + alunos[2].nome + " | Nota: " + alunos[2].notas}
+        `));
 
+            switch (opcao) {
+                case 1:
+                    nome = prompt("Digite o nome do aluno:");
+                    calcularMedia(nome);
+                    break;
+
+                case 2:
+                    nome = prompt("Digite o nome do aluno:");
+                    classificarAluno(nome);
+                    break;
+
+                case 3:
+                    nome = prompt("Digite o nome do aluno:");
+                    nota = Number(prompt("Digite a nota a ser adicionada (0 a 10):"));
+                    adicionarNota(nome, nota);
+                    break;
+
+                case 0:
+                    alert("Programa encerrado!");
+                    break;
+
+                default:
+                    alert("Opção inválida! Por favor, tente novamente.");
+            }
+        }
+    }
+
+    menu();
 </script>

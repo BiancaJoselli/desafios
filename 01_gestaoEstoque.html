@@ -5,7 +5,7 @@
         { id: 3, nome: "Mochila", preco: 120, quantidade: 5 }
     ];
 
-    //Problema: Gestão de Estoque
+     //Problema: Gestão de Estoque
     /*
     1. Criar uma função buscarProduto(nome) que recebe um nome e retorna o produto (ou mensagem de não encontrado).
     2. Criar uma função adicionarEstoque(id, qtd) que aumenta o estoque de um produto.
@@ -14,5 +14,88 @@
     5. Criar um menu (switch case) para o usuário escolher ações repetidamente (entre as funções desenvolvidas) até decidir sair (opção para sair - 0).
     */
 
+    function buscarProduto(nome) {
+        const produto = estoque.find(produto => produto.nome.toLowerCase() === nome.toLowerCase());
+        return produto ? produto : "Produto não encontrado!";
+    }
 
+    function adicionarEstoque(id, qtd) {
+        const produto = estoque.find(produto => produto.id === id);
+        if (produto) {
+            if (qtd > 0) {
+                produto.quantidade += qtd;
+                alert(`Adicionado ${qtd} unidades ao produto ${produto.nome}. Estoque atual: ${produto.quantidade}`);
+            } else {
+                alert("Quantidade inválida! Use um número positivo.");
+            }
+        } else {
+            alert("Produto não encontrado!");
+        }
+    }
+
+    function venderProduto(id, qtd) {
+        const produto = estoque.find(produto => produto.id === id);
+        if (produto) {
+            if (qtd > 0) {
+                if (produto.quantidade >= qtd) {
+                    produto.quantidade -= qtd;
+                    alert(`Vendidas ${qtd} unidades de ${produto.nome}. Estoque restante: ${produto.quantidade}`);
+                } else {
+                    alert("Quantidade insuficiente em estoque!");
+                }
+            } else {
+                alert("Quantidade inválida! Use um número positivo.");
+            }
+        } else {
+            alert("Produto não encontrado!");
+        }
+    }
+
+    function calcularValorTotalEstoque() {
+        const total = estoque.reduce((total, produto) => total + produto.preco * produto.quantidade, 0);
+        alert(`Valor total do estoque: R$ ${total.toFixed(2)}`);
+        return total;
+    }
+
+    function menu() {
+        let opcao;
+        do {
+            let listaEstoque = estoque.map(produto => `${produto.id} - ${produto.nome} - R$ ${produto.preco} - ${produto.quantidade} unidade(s)`).join("\n");
+            alert(`Estoque atual:\n${listaEstoque}`);
+
+            opcao = Number(prompt("Menu de Gestão de Estoque:\n 1. Buscar Produto\n 2. Adicionar Estoque\n 3. Vender Produto\n 4. Calcular Valor Total do Estoque\n 0. Sair\n\n Escolha uma opção:"));
+
+            switch (opcao) {
+                case 1:
+                    const nome = prompt("Digite o nome do produto:");
+                    const resultadoBusca = buscarProduto(nome);
+                    if (typeof resultadoBusca === "string") {
+                        alert(resultadoBusca);
+                    } else {
+                        alert(`Produto encontrado:\n ID: ${resultadoBusca.id}\n Nome: ${resultadoBusca.nome}\n Preço: R$ ${resultadoBusca.preco}\n Quantidade: ${resultadoBusca.quantidade}`);
+                    }
+                    break;
+                case 2:
+                    const idAdicionar = Number(prompt("Digite o ID do produto:"));
+                    const qtdAdicionar = Number(prompt("Digite a quantidade a adicionar:"));
+                    adicionarEstoque(idAdicionar, qtdAdicionar);
+                    break;
+                case 3:
+                    const idVender = Number(prompt("Digite o ID do produto:"));
+                    const qtdVender = Number(prompt("Digite a quantidade a vender:"));
+                    venderProduto(idVender, qtdVender);
+                    break;
+                case 4:
+                    calcularValorTotalEstoque();
+                    break;
+                case 0:
+                    alert("Programa encerrado!");
+                    break;
+                default:
+                    alert("Opção inválida! Tente novamente.");
+            }
+        } while (opcao !== 0);
+    }
+
+    menu();
 </script>
